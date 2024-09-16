@@ -1,16 +1,14 @@
-import React from "react";
-import { TextInput, Select, SelectItem } from "@carbon/react";
-import { type FieldValues, type UseFormRegister } from "react-hook-form";
-import { type SpecificQuestion } from "../../types";
+import React from 'react';
+import { TextInput, Select, SelectItem } from '@carbon/react';
+import { type FieldValues, type UseFormRegister } from 'react-hook-form';
+import { type SpecificQuestion } from '../../types';
 
 interface ConfigurableQuestionsSectionProps {
   specificQuestions: Array<SpecificQuestion>;
   register?: UseFormRegister<FieldValues>;
 }
 
-const ConfigurableQuestionsSection: React.FC<
-  ConfigurableQuestionsSectionProps
-> = ({ register, specificQuestions }) => {
+const ConfigurableQuestionsSection: React.FC<ConfigurableQuestionsSectionProps> = ({ register, specificQuestions }) => {
   return (
     <>
       {specificQuestions?.map((specificQuestion) => (
@@ -20,14 +18,12 @@ const ConfigurableQuestionsSection: React.FC<
               {...register(specificQuestion.question.id, { required: false })}
               id={specificQuestion.question.id}
               labelText={specificQuestion.question.display}
+              readOnly={!!specificQuestion.question.disabled}
+              defaultValue={specificQuestion.question.defaultAnswer}
             >
               <SelectItem value="" text="" />
               {specificQuestion.answers.map((answer) => (
-                <SelectItem
-                  key={answer.value}
-                  value={answer.value}
-                  text={answer.display}
-                />
+                <SelectItem key={answer.value} value={answer.value} text={answer.display} />
               ))}
             </Select>
           ) : (
@@ -36,6 +32,8 @@ const ConfigurableQuestionsSection: React.FC<
               {...register(specificQuestion.question.id, { required: false })}
               type="text"
               labelText={specificQuestion.question.display}
+              readOnly={!!specificQuestion.question.disabled}
+              defaultValue={specificQuestion.question.defaultAnswer}
             />
           )}
         </div>
